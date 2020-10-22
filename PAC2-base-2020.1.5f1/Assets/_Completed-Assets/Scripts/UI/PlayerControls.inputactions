@@ -11,7 +11,7 @@
                     "id": "5d50249a-3b1a-48f9-809e-b5cae999d48d",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "Press(behavior=2)"
+                    "interactions": ""
                 },
                 {
                     "name": "MoveTank",
@@ -34,7 +34,7 @@
                 {
                     "name": "",
                     "id": "c58cdd4f-cead-4778-9ce1-33609a38022b",
-                    "path": "<Keyboard>/space",
+                    "path": "<Keyboard>/e",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -43,7 +43,29 @@
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "Vertical Axis",
+                    "name": "",
+                    "id": "72735786-3d75-4de0-a094-0f345fe48a04",
+                    "path": "<XInputController>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Fire",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "177741a2-23e6-408e-867f-efea35536a7a",
+                    "path": "<DualShockGamepad>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Fire",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "Vertical Axis [Keyboard]",
                     "id": "0f3cb15d-ca1c-4c3b-86b6-140a76162cc9",
                     "path": "2DVector",
                     "interactions": "",
@@ -65,6 +87,17 @@
                     "isPartOfComposite": true
                 },
                 {
+                    "name": "Up",
+                    "id": "2c2aac1c-4f34-4105-83be-6537d8c1034f",
+                    "path": "<Keyboard>/w",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "MoveTank",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
                     "name": "Down",
                     "id": "64f7b9e1-1c59-4be4-aced-7c9768d5ae0d",
                     "path": "<Keyboard>/downArrow",
@@ -76,7 +109,84 @@
                     "isPartOfComposite": true
                 },
                 {
-                    "name": "Horizontal Axis",
+                    "name": "Down",
+                    "id": "17f43b14-de71-47d5-89b5-303a1ac92315",
+                    "path": "<Keyboard>/s",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "MoveTank",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "Vertical Axis [Xbox Controller]",
+                    "id": "0aaf0ca8-b792-4d67-977f-9370d9410501",
+                    "path": "2DVector",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "MoveTank",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "Up",
+                    "id": "9d70c2f7-ea7e-422a-9eb1-90cd84cab498",
+                    "path": "<XInputController>/leftStick/up",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "MoveTank",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "Down",
+                    "id": "66de986a-d280-4221-a179-6c397a894707",
+                    "path": "<XInputController>/leftStick/down",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "MoveTank",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "Vertical Axis [PS4 Controller]",
+                    "id": "d90380d4-6f4b-46aa-bb69-55edfce13bb1",
+                    "path": "2DVector",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "MoveTank",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "Up",
+                    "id": "9672a8a6-6d7f-4771-8517-016f645c5513",
+                    "path": "<DualShockGamepad>/leftStick/up",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "MoveTank",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "Down",
+                    "id": "ecba817d-a9ae-4949-b093-0e9b719f4e6a",
+                    "path": "<DualShockGamepad>/leftStick/down",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "MoveTank",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "Horizontal Axis [Keyboard]",
                     "id": "7f125e76-842e-41be-b4d9-1b430a570c9a",
                     "path": "2DVector",
                     "interactions": "",
@@ -98,9 +208,97 @@
                     "isPartOfComposite": true
                 },
                 {
+                    "name": "Left",
+                    "id": "ebc2ff5f-ce0f-4d4c-8843-561739186f5d",
+                    "path": "<Keyboard>/a",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "TurnTank",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
                     "name": "Right",
                     "id": "7e6ead82-83de-4059-9d51-a9792e1be500",
                     "path": "<Keyboard>/rightArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "TurnTank",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "Right",
+                    "id": "cb6a6fc8-8a10-41e3-9be3-7a68ea9961fa",
+                    "path": "<Keyboard>/d",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "TurnTank",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "Horizontal Axis [Xbox Controller]",
+                    "id": "f13a4092-e7d9-4271-89d4-30f09a7fec76",
+                    "path": "2DVector",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "TurnTank",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "Left",
+                    "id": "390a8ee1-bac9-4599-84ea-1735f39f2022",
+                    "path": "<XInputController>/leftStick/left",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "TurnTank",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "Right",
+                    "id": "f7f1badc-0b18-4503-8707-31c78c90a66d",
+                    "path": "<XInputController>/leftStick/right",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "TurnTank",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "Horizontal Axis [PS4 Controller]",
+                    "id": "9e8823ca-379a-417a-964a-2dd0779c4aac",
+                    "path": "2DVector",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "TurnTank",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "Left",
+                    "id": "c75a5506-aa60-4d06-9a4f-d4e9e258dccc",
+                    "path": "<DualShockGamepad>/leftStick/left",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "TurnTank",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "Right",
+                    "id": "3bce77c1-fdf6-413b-a08c-eba90019af5e",
+                    "path": "<DualShockGamepad>/leftStick/right",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
