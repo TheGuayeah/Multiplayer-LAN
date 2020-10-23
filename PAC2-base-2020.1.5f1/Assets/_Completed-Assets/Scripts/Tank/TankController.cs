@@ -3,34 +3,84 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 using System.Linq;
+using UnityEngine.InputSystem;
+using UnityEngine.EventSystems;
 
 namespace Complete
 {
     public class TankController : NetworkBehaviour
     {
         private GameManager gameManager;
+        private InputAction m_FireAction;
+        private TankShooting m_tankShooting;
+        private TankMovement m_tankMovement;
+        private InputAction m_MoveAction;
+        private InputAction m_TurnAction;
 
         void Awake()
         {
             gameManager = FindObjectOfType<GameManager>().GetComponent<GameManager>();
+            m_tankShooting = FindObjectOfType<TankShooting>().GetComponent<TankShooting>();
+            m_tankMovement = FindObjectOfType<TankMovement>().GetComponent<TankMovement>();
         }
 
         // Start is called before the first frame update
         void Start()
         {
             AddToTankList();
+            if (isLocalPlayer)
+            {
+                // Unity 2020 New Input System
+                // Get a reference to the MultiplayerEventSystem for this player
+                EventSystem ev = GameObject.Find("EventSystem").GetComponent<EventSystem>();
+
+                // Find the Action Map for the Tank actions and enable it
+                InputActionMap playerActionMap = ev.GetComponent<PlayerInput>().actions.FindActionMap("Tank");
+                playerActionMap.Enable();
+
+                // Find the 'Move' action
+                m_MoveAction = playerActionMap.FindAction("MoveTank");
+
+                // Find the 'Turn' action
+                m_TurnAction = playerActionMap.FindAction("TurnTank");
+
+                // Enable and hook up the events
+                m_MoveAction.Enable();
+                m_TurnAction.Enable();
+                m_MoveAction.performed += m_tankMovement.OnTankMove;
+                m_TurnAction.performed += m_tankMovement.OnTankTurn;
+
+                // Find the 'Fire' action
+                m_FireAction = playerActionMap.FindAction("Fire");
+
+                m_FireAction.Enable();
+                m_FireAction.performed += m_tankShooting.OnFire;
+            }
         }
 
         // Update is called once per frame
         void Update()
         {
-            if (!isLocalPlayer)
+            if (isLocalPlayer)
             {
-                return;
+                
             }
             else
             {
+                return;
+            }
+        }
 
+        private void FixedUpdate()
+        {
+            if (isLocalPlayer)
+            {
+                m_tankMovement.Move();
+                m_tankMovement.Turn();
+            }
+            else
+            {
+                return;
             }
         }
 

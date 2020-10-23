@@ -1,4 +1,6 @@
+using Mirror;
 using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -17,20 +19,20 @@ namespace Complete
         public Color m_EnemyColor;                  // This is the color this tank will be tinted
         public Color m_AiColor;                     // This is the color this tank will be tinted
         public TankManager[] m_Tanks;               // A collection of managers for enabling and disabling different aspects of the tanks
-
         
         private int m_RoundNumber;                  // Which round the game is currently on
         private WaitForSeconds m_StartWait;         // Used to have a delay whilst the round starts
         private WaitForSeconds m_EndWait;           // Used to have a delay whilst the round or game ends
         private TankManager m_RoundWinner;          // Reference to the winner of the current round.  Used to make an announcement of who won
         private TankManager m_GameWinner;           // Reference to the winner of the game.  Used to make an announcement of who won
-
+        private NetworkManager manager;
 
         private void Start()
         {
             // Create the delays so they only have to be made once
             m_StartWait = new WaitForSeconds (m_StartDelay);
             m_EndWait = new WaitForSeconds (m_EndDelay);
+            manager = FindObjectOfType<NetworkManager>().GetComponent<NetworkManager>();
 
             SpawnAllTanks();
             SetCameraTargets();
@@ -272,6 +274,25 @@ namespace Complete
             for (int i = 0; i < m_Tanks.Length; i++)
             {
                 m_Tanks[i].DisableControl();
+            }
+        }
+
+        public void Disonnect()
+        {
+            // stop host if host mode
+            if (NetworkServer.active && NetworkClient.isConnected)
+            {
+                manager.StopHost();
+            }
+            // stop client if client-only
+            else if (NetworkClient.isConnected)
+            {
+                manager.StopClient();
+            }
+            // stop server if server-only
+            else if (NetworkServer.active)
+            {
+                manager.StopServer();
             }
         }
     }

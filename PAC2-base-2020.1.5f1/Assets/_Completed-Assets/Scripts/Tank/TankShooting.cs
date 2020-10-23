@@ -40,17 +40,17 @@ namespace Complete
         {
             // Unity 2020 New Input System
             // Get a reference to the EventSystem for this player
-            EventSystem ev = GameObject.Find ("EventSystem").GetComponent<EventSystem>();
+            //EventSystem ev = GameObject.Find ("EventSystem").GetComponent<EventSystem>();
 
-            // Find the Action Map for the Tank actions and enable it
-            InputActionMap playerActionMap = ev.GetComponent<PlayerInput>().actions.FindActionMap ("Tank");
-            playerActionMap.Enable();
+            //// Find the Action Map for the Tank actions and enable it
+            //InputActionMap playerActionMap = ev.GetComponent<PlayerInput>().actions.FindActionMap ("Tank");
+            //playerActionMap.Enable();
 
-            // Find the 'Fire' action
-            m_FireAction = playerActionMap.FindAction ("Fire");
+            //// Find the 'Fire' action
+            //m_FireAction = playerActionMap.FindAction ("Fire");
 
-            m_FireAction.Enable();
-            m_FireAction.performed += OnFire;
+            //m_FireAction.Enable();
+            //m_FireAction.performed += OnFire;
         }
 
 

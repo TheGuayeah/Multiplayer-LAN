@@ -75,23 +75,23 @@ namespace Complete
 
             // Unity 2020 New Input System
             // Get a reference to the MultiplayerEventSystem for this player
-            EventSystem ev = GameObject.Find ("EventSystem").GetComponent<EventSystem>();
+            //EventSystem ev = GameObject.Find ("EventSystem").GetComponent<EventSystem>();
 
-            // Find the Action Map for the Tank actions and enable it
-            InputActionMap playerActionMap = ev.GetComponent<PlayerInput>().actions.FindActionMap ("Tank");
-            playerActionMap.Enable();
+            //// Find the Action Map for the Tank actions and enable it
+            //InputActionMap playerActionMap = ev.GetComponent<PlayerInput>().actions.FindActionMap ("Tank");
+            //playerActionMap.Enable();
 
-            // Find the 'Move' action
-            m_MoveAction = playerActionMap.FindAction ("MoveTank");
+            //// Find the 'Move' action
+            //m_MoveAction = playerActionMap.FindAction ("MoveTank");
 
-            // Find the 'Turn' action
-            m_TurnAction = playerActionMap.FindAction ("TurnTank");
+            //// Find the 'Turn' action
+            //m_TurnAction = playerActionMap.FindAction ("TurnTank");
 
-            // Enable and hook up the events
-            m_MoveAction.Enable();
-            m_TurnAction.Enable();
-            m_MoveAction.performed += OnTankMove;
-            m_TurnAction.performed += OnTankTurn;
+            //// Enable and hook up the events
+            //m_MoveAction.Enable();
+            //m_TurnAction.Enable();
+            //m_MoveAction.performed += OnTankMove;
+            //m_TurnAction.performed += OnTankTurn;
         }
 
 
@@ -143,12 +143,12 @@ namespace Complete
         private void FixedUpdate()
         {
             // Adjust the rigidbodies position and orientation in FixedUpdate
-            Move();
-            Turn();
+            //Move();
+            //Turn();
         }
 
 
-        private void Move()
+        public void Move()
         {
             if (!isDisabled)
             {
@@ -161,7 +161,7 @@ namespace Complete
         }
 
 
-        private void Turn()
+        public void Turn()
         {
             if (!isDisabled)
             {
