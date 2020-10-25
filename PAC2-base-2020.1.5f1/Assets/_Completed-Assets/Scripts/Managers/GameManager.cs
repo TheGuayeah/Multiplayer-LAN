@@ -1,5 +1,6 @@
 using Mirror;
 using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -70,7 +71,6 @@ namespace Complete
             // These are the targets the camera should follow
             m_CameraControl.m_Targets = targets;
         }
-
 
         // This is called from start and will run each phase of the game one after another
         private IEnumerator GameLoop()
