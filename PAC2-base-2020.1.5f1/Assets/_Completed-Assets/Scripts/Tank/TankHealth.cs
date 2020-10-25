@@ -1,9 +1,13 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Networking;
+using Mirror;
+using System.Linq;
+using System.Collections.Generic;
 
 namespace Complete
 {
-    public class TankHealth : MonoBehaviour
+    public class TankHealth : NetworkBehaviour
     {
         public float m_StartingHealth = 100f;               // The amount of health each tank starts with
         public Slider m_Slider;                             // The slider to represent how much health the tank currently has
@@ -15,6 +19,7 @@ namespace Complete
         
         private AudioSource m_ExplosionAudio;               // The audio source to play when the tank explodes
         private ParticleSystem m_ExplosionParticles;        // The particle system the will play when the tank is destroyed
+        [SyncVar] [SerializeField]
         private float m_CurrentHealth;                      // How much health the tank currently has
         private bool m_Dead;                                // Has the tank been reduced beyond zero health yet?
 
@@ -23,6 +28,7 @@ namespace Complete
         {
             // Instantiate the explosion prefab and get a reference to the particle system on it
             m_ExplosionParticles = Instantiate (m_ExplosionPrefab).GetComponent<ParticleSystem>();
+            NetworkServer.Spawn(m_ExplosionParticles.gameObject);
 
             // Get a reference to the audio source on the instantiated prefab
             m_ExplosionAudio = m_ExplosionParticles.GetComponent<AudioSource>();
@@ -42,9 +48,21 @@ namespace Complete
             SetHealthUI();
         }
 
+        [ClientRpc]
+        void RpcRespawn()
+        {
+            if (isLocalPlayer)
+            {
+                //transform.position = spawnPoint;
+            }
+        }
 
         public void TakeDamage (float amount)
         {
+            if (!isServer)
+            {
+                return;
+            }
             // Reduce current health by the amount of damage done
             m_CurrentHealth -= amount;
 
@@ -58,7 +76,6 @@ namespace Complete
             }
         }
 
-
         private void SetHealthUI()
         {
             // Set the slider's value appropriately
@@ -68,6 +85,10 @@ namespace Complete
             m_FillImage.color = Color.Lerp (m_ZeroHealthColor, m_FullHealthColor, m_CurrentHealth / m_StartingHealth);
         }
 
+        //private void OnChangeHealth(int newHealth)
+        //{
+        //    healthBar.sizeDelta = new Vector2(currentHealth, healthBar.sizeDelta.y);
+        //}
 
         private void OnDeath ()
         {
@@ -85,7 +106,7 @@ namespace Complete
             m_ExplosionAudio.Play();
 
             // Turn the tank off
-            gameObject.SetActive (false);
+            gameObject.SetActive(false);
         }
     }
 }

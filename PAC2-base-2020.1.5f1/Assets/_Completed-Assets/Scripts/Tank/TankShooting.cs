@@ -2,10 +2,11 @@
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
+using Mirror;
 
 namespace Complete
 {
-    public class TankShooting : MonoBehaviour
+    public class TankShooting : NetworkBehaviour
     {
         public int m_PlayerNumber = 1;              // Used to identify the different players
         public Rigidbody m_Shell;                   // Prefab of the shell
@@ -62,20 +63,24 @@ namespace Complete
                 // When the value read is higher than the default Button Press Point, the key has been pressed
                 if (obj.ReadValue<float>() >= InputSystem.settings.defaultButtonPressPoint)
                 {
-                    Fire();
+                    CmdFire();
                 }
             }
         }
 
-        private void Fire()
+        [Command]
+        private void CmdFire()
         {
             // Create an instance of the shell and store a reference to it's rigidbody
             Rigidbody shellInstance;
 
-            shellInstance = Instantiate(m_Shell, m_FireTransform.position, m_FireTransform.rotation) as Rigidbody;
+            shellInstance = Instantiate(m_Shell, m_FireTransform.position, m_FireTransform.rotation);
 
             // Set the shell's velocity to the launch force in the fire position's forward direction
             shellInstance.velocity = m_CurrentLaunchForce * m_FireTransform.forward;
+
+            // Send bullet to network
+            NetworkServer.Spawn(shellInstance.gameObject);
 
             // Change the clip to the firing clip and play it
             m_ShootingAudio.clip = m_FireClip;

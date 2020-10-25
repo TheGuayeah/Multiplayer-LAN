@@ -58,19 +58,6 @@ namespace Complete
             }
         }
 
-        // Update is called once per frame
-        void Update()
-        {
-            if (isLocalPlayer)
-            {
-                
-            }
-            else
-            {
-                return;
-            }
-        }
-
         private void FixedUpdate()
         {
             if (isLocalPlayer)
