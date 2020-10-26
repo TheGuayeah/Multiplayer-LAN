@@ -34,11 +34,14 @@ public class NPC_AI_Script : MonoBehaviour
         GameObject[] tanksInGame = GameObject.FindGameObjectsWithTag("Player");
         foreach (GameObject tank in tanksInGame)
         {
-            distance = Vector3.Distance(transform.position, tank.transform.position);
-            if (distance < maxDist)
+            if (tank.name != transform.name)
             {
-                closeTank = tank;
-                maxDist = distance;
+                distance = Vector3.Distance(transform.position, tank.transform.position);
+                if (distance < maxDist)
+                {
+                    closeTank = tank;
+                    maxDist = distance;
+                }
             }
         }
         if (closeTank != null)
@@ -46,7 +49,7 @@ public class NPC_AI_Script : MonoBehaviour
             m_navAgent.destination = closeTank.transform.position;
             transform.LookAt(closeTank.transform);
             m_navAgent.stoppingDistance = m_ShootingDistance;
-            if (distance <= m_ShootingDistance)
+            if (maxDist <= m_ShootingDistance)
             {
                 m_tankShootingScript.enabled = true;
                 m_time += Time.deltaTime;

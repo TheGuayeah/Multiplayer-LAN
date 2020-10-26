@@ -35,24 +35,24 @@ namespace Complete
             m_EndWait = new WaitForSeconds (m_EndDelay);
             manager = FindObjectOfType<NetworkManager>().GetComponent<NetworkManager>();
 
-            SpawnAllTanks();
+            SpawnNPCTanks();
             SetCameraTargets();
 
             // Once the tanks have been created and the camera is using them as targets, start the game
             StartCoroutine (GameLoop ());
         }
 
-        private void SpawnAllTanks()
+        private void SpawnNPCTanks()
         {
-            //// For all the tanks...
-            //for (int i = 0; i < m_Tanks.Length; i++)
-            //{
-            //    // ... create them, set their player number and references needed for control
-            //    m_Tanks[i].m_Instance =
-            //        Instantiate (m_TankPrefab, m_Tanks[i].m_SpawnPoint.position, m_Tanks[i].m_SpawnPoint.rotation) as GameObject;
-            //    m_Tanks[i].m_PlayerNumber = i + 1;
-            //    m_Tanks[i].Setup();
-            //}
+            // For all the tanks...
+            for (int i = 0; i < m_Tanks.Length; i++)
+            {
+                // ... create them, set their player number and references needed for control
+                // m_Tanks[i].m_Instance = Instantiate(m_TankPrefab, m_Tanks[i].m_SpawnPoint.position, m_Tanks[i].m_SpawnPoint.rotation) as GameObject;
+                m_Tanks[i].m_PlayerNumber = i + 5;
+                m_Tanks[i].m_PlayerColor = m_AiColor;
+                m_Tanks[i].Setup();
+            }
         }
 
 

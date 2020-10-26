@@ -11,11 +11,11 @@ namespace Complete
         // and whether or not players have control of their tank in the 
         // different phases of the game
 
-        public Color m_PlayerColor;                        // This is the color this tank will be tinted
-        public Transform m_SpawnPoint;                          // The position and direction the tank will have when it spawns
+        [HideInInspector] public Color m_PlayerColor;                        // This is the color this tank will be tinted
+        [HideInInspector] public Transform m_SpawnPoint;                          // The position and direction the tank will have when it spawns
         [HideInInspector] public int m_PlayerNumber;            // This specifies which player this the manager for
         [HideInInspector] public string m_ColoredPlayerText;    // A string that represents the player with their number colored to match their tank
-        [HideInInspector] public GameObject m_Instance;         // A reference to the instance of the tank when it is created
+        public GameObject m_Instance;         // A reference to the instance of the tank when it is created
         [HideInInspector] public int m_Wins;                    // The number of wins this player has so far
         
 
@@ -31,6 +31,9 @@ namespace Complete
             m_Shooting = m_Instance.GetComponent<TankShooting> ();
             m_TankController = m_Instance.GetComponent<TankController>();
             m_CanvasGameObject = m_Instance.GetComponentInChildren<Canvas> ().gameObject;
+
+            //set spawn position
+            m_SpawnPoint = m_Instance.transform;
 
             // Set the player numbers to be consistent across the scripts
             m_Movement.m_PlayerNumber = m_PlayerNumber;
