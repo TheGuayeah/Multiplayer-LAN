@@ -89,5 +89,26 @@ namespace Complete
             // Reset the launch force.  This is a precaution in case of missing button events
             m_CurrentLaunchForce = m_MinLaunchForce;
         }
+
+        public void NPC_Fire()
+        {
+            // Create an instance of the shell and store a reference to it's rigidbody
+            Rigidbody shellInstance;
+
+            shellInstance = Instantiate(m_Shell, m_FireTransform.position, m_FireTransform.rotation);
+
+            // Set the shell's velocity to the launch force in the fire position's forward direction
+            shellInstance.velocity = m_CurrentLaunchForce * m_FireTransform.forward;
+
+            // Send bullet to network
+            NetworkServer.Spawn(shellInstance.gameObject);
+
+            // Change the clip to the firing clip and play it
+            m_ShootingAudio.clip = m_FireClip;
+            m_ShootingAudio.Play();
+
+            // Reset the launch force.  This is a precaution in case of missing button events
+            m_CurrentLaunchForce = m_MinLaunchForce;
+        }
     }
 }

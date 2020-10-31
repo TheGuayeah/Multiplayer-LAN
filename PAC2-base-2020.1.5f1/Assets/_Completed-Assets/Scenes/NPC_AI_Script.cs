@@ -55,7 +55,7 @@ public class NPC_AI_Script : MonoBehaviour
                 m_time += Time.deltaTime;
                 if (m_time >= 2f)
                 {
-                    m_tankShootingScript.CmdFire();
+                    m_tankShootingScript.NPC_Fire();
                     m_time = 0;
                 }
             }

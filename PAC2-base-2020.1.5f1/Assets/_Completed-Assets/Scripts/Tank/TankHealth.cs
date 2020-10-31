@@ -103,7 +103,7 @@ namespace Complete
 
 
             // Turn the tank off
-            //gameObject.SetActive(false);
+            gameObject.SetActive(false);
         }
     }
 }

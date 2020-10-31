@@ -32,15 +32,19 @@ namespace Complete
         private void Start()
         {
             // Create the delays so they only have to be made once
-            m_StartWait = new WaitForSeconds (m_StartDelay);
-            m_EndWait = new WaitForSeconds (m_EndDelay);
+            m_StartWait = new WaitForSeconds(m_StartDelay);
+            m_EndWait = new WaitForSeconds(m_EndDelay);
             manager = FindObjectOfType<NetworkManager>().GetComponent<NetworkManager>();
 
-            SpawnNPCTanks();
+            var strColor = PlayerPrefs.GetString("PlayerColor");
+            ColorUtility.TryParseHtmlString(strColor, out m_PlayerColor);
+
+            //SpawnNPCTanks();
             SetCameraTargets();
 
             // Once the tanks have been created and the camera is using them as targets, start the game
-            StartCoroutine (GameLoop ());
+            StartCoroutine(GameLoop());
+            
         }
 
         private void SpawnNPCTanks()
