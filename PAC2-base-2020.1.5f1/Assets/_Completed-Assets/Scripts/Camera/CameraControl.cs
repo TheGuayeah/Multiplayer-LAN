@@ -1,4 +1,7 @@
 ﻿using UnityEngine;
+using System.Linq;
+using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 
 namespace Complete
 {
@@ -14,11 +17,16 @@ namespace Complete
         private float m_ZoomSpeed;                      // Reference speed for the smooth damping of the orthographic size
         private Vector3 m_MoveVelocity;                 // Reference velocity for the smooth damping of the position
         private Vector3 m_DesiredPosition;              // The position the camera is moving towards
+        private GameManager gameManager;
 
 
         private void Awake()
         {
             m_Camera = GetComponentInChildren<Camera> ();
+            if (SceneManager.GetActiveScene().name == "Game")
+            {
+                gameManager = FindObjectOfType<GameManager>().GetComponent<GameManager>();
+            }
         }
 
 
@@ -47,9 +55,31 @@ namespace Complete
             Vector3 averagePos = new Vector3();
             int numTargets = 0;
 
+            //List<TankManager> tempTanks = gameManager.m_Tanks.ToList();
+            //for (int n = 0; n < gameManager.m_Tanks.Length; n++)
+            //{
+            //    if (gameManager.m_Tanks[n] == null)
+            //    {
+            //        tempTanks.Remove(gameManager.m_Tanks[n]);
+            //        gameManager.m_Tanks = tempTanks.ToArray();
+            //        gameManager.SetCameraTargets();
+            //    }
+            //}
+
             // Go through all the targets and add their positions together
             for (int i = 0; i < m_Targets.Length; i++)
             {
+                List<TankManager> tempTanks = gameManager.m_Tanks.ToList();
+                for (int n = 0; n < gameManager.m_Tanks.Length; n++)
+                {
+                    if (gameManager.m_Tanks[n] == null)
+                    {
+                        tempTanks.Remove(gameManager.m_Tanks[n]);
+                        gameManager.m_Tanks = tempTanks.ToArray();
+                        gameManager.SetCameraTargets();
+                    }
+                }
+
                 // If the target isn't active, go on to the next one
                 if (!m_Targets[i].gameObject.activeSelf)
                 {

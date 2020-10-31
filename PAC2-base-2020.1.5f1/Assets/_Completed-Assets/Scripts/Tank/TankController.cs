@@ -94,5 +94,26 @@ namespace Complete
             // Reconfiguramos la lista de objetivos de la cámara
             gameManager.SetCameraTargets();
         }
+
+        /// <summary>
+        /// Eliminamos de la lista Tanks del GameManager para que no siga afectando a la camara
+        /// </summary>
+        public void RemoveFromTankList()
+        {
+            TankManager tank = new TankManager();
+            // Hacemos referencia al objeto del tanque
+            tank.m_Instance = gameObject;
+
+            // Configuramos los componentes del tanque
+            tank.Setup();
+
+            // Eliminamos el tanque completamente configurado a la lista del GameManager
+            List<TankManager> tempTanks = gameManager.m_Tanks.ToList();
+            tempTanks.Remove(tank);
+            gameManager.m_Tanks = tempTanks.ToArray();
+
+            // Reconfiguramos la lista de objetivos de la cámara
+            gameManager.SetCameraTargets();
+        }
     }
 }

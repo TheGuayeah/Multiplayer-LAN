@@ -68,6 +68,7 @@ namespace Complete
             }
         }
 
+        [Command]
         public void CmdFire()
         {
             // Create an instance of the shell and store a reference to it's rigidbody
