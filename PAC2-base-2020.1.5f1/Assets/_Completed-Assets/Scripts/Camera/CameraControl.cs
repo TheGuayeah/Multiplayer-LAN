@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
+using System;
 
 namespace Complete
 {
@@ -70,20 +71,26 @@ namespace Complete
             for (int i = 0; i < m_Targets.Length; i++)
             {
                 List<TankManager> tempTanks = gameManager.m_Tanks.ToList();
-                for (int n = 0; n < gameManager.m_Tanks.Length; n++)
-                {
-                    if (gameManager.m_Tanks[n] == null)
-                    {
-                        tempTanks.Remove(gameManager.m_Tanks[n]);
-                        gameManager.m_Tanks = tempTanks.ToArray();
-                        gameManager.SetCameraTargets();
-                    }
-                }
+                //for (int n = 0; n < gameManager.m_Tanks.Length; n++)
+                //{
+                //    if (gameManager.m_Tanks[n] == null)
+                //    {
+                        
+                //    }
+                //}
 
                 // If the target isn't active, go on to the next one
-                if (!m_Targets[i].gameObject.activeSelf)
+                if (m_Targets[i] == null)
                 {
-                    continue;
+                    tempTanks.Remove(gameManager.m_Tanks[i]);
+                    gameManager.m_Tanks = tempTanks.ToArray();
+                    m_Targets = new Transform[gameManager.m_Tanks.Length];
+                    foreach (var tank in gameManager.m_Tanks)
+                    {
+                        m_Targets[i] = tank.m_Instance.transform;
+                    }
+                    if(tempTanks.ToArray().Length > 0) gameManager.SetCameraTargets();
+                    return;
                 }
 
                 // Add to the average and increment the number of targets in the average
@@ -124,10 +131,19 @@ namespace Complete
             // Go through all the targets...
             for (int i = 0; i < m_Targets.Length; i++)
             {
+                List<TankManager> tempTanks = gameManager.m_Tanks.ToList();
                 // ... and if they aren't active continue on to the next target
-                if (!m_Targets[i].gameObject.activeSelf)
+                if (gameManager.m_Tanks[i] == null)
                 {
-                    continue;
+                    tempTanks.Remove(gameManager.m_Tanks[i]);
+                    gameManager.m_Tanks = tempTanks.ToArray();
+                    m_Targets = new Transform[gameManager.m_Tanks.Length];
+                    foreach (var tank in gameManager.m_Tanks)
+                    {
+                        m_Targets[i] = tank.m_Instance.transform;
+                    }
+                    if (tempTanks.ToArray().Length > 0) gameManager.SetCameraTargets();
+                    FindRequiredSize();
                 }
 
                 // Otherwise, find the position of the target in the camera's local space

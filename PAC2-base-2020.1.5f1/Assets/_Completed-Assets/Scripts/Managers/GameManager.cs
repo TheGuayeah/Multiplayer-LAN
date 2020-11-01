@@ -63,6 +63,7 @@ namespace Complete
 
         public void SetCameraTargets()
         {
+            Debug.Log("HI");
             // Create a collection of transforms the same size as the number of tanks
             Transform[] targets = new Transform[m_Tanks.Length];
 

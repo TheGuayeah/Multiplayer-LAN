@@ -82,6 +82,7 @@ namespace Complete
         {
             GetComponent<TankController>().RemoveFromTankList();
 
+            Explosion();
             CmdTankExplosion();
 
             // Turn the tank off
@@ -96,7 +97,12 @@ namespace Complete
         }
 
         [ClientRpc]
-        private void RpcParticlesExplosion()
+        public void RpcParticlesExplosion()
+        {
+            Explosion();
+        }
+
+        private void Explosion()
         {
             // Instantiate the explosion prefab and get a reference to the particle system on it
             m_ExplosionParticles = Instantiate(m_ExplosionPrefab).GetComponent<ParticleSystem>();
