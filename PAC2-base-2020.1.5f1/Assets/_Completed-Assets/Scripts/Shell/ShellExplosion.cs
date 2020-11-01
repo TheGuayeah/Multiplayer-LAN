@@ -57,6 +57,21 @@ namespace Complete
                 targetHealth.TakeDamage (damage);
             }
 
+            ParticlesExplosion();
+            RpcClientExplosion();
+
+            // Destroy the shell
+            Destroy (gameObject);
+        }
+
+        [ClientRpc]
+        public void RpcClientExplosion()
+        {
+            ParticlesExplosion();
+        }
+
+        private void ParticlesExplosion()
+        {
             // Unparent the particles from the shell
             m_ExplosionParticles.transform.parent = null;
 
@@ -68,10 +83,7 @@ namespace Complete
 
             // Once the particles have finished, destroy the gameobject they are on
             ParticleSystem.MainModule mainModule = m_ExplosionParticles.main;
-            Destroy (m_ExplosionParticles.gameObject, mainModule.duration);
-
-            // Destroy the shell
-            Destroy (gameObject);
+            Destroy(m_ExplosionParticles.gameObject, mainModule.duration);
         }
 
 

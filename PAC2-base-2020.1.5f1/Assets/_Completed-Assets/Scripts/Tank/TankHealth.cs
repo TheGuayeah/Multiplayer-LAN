@@ -23,18 +23,9 @@ namespace Complete
         [SyncVar(hook = "OnDeath")]
         public bool m_Dead;                                // Has the tank been reduced beyond zero health yet?
 
-
         private void Awake ()
         {
-            // Instantiate the explosion prefab and get a reference to the particle system on it
-            //m_ExplosionParticles = Instantiate(m_ExplosionPrefab).GetComponent<ParticleSystem>();
-
-            //NetworkServer.Spawn(m_ExplosionParticles.gameObject);
-            // Get a reference to the audio source on the instantiated prefab
-            //m_ExplosionAudio = m_ExplosionParticles.GetComponent<AudioSource>();
-
-            // Disable the prefab so it can be activated when it's required
-            //m_ExplosionParticles.gameObject.SetActive (false);
+            
         }
 
 
@@ -90,20 +81,43 @@ namespace Complete
         private void OnDeath (System.Boolean oldValue, System.Boolean newValue)
         {
             GetComponent<TankController>().RemoveFromTankList();
-            
-            // Move the instantiated explosion prefab to the tank's position and turn it on
-            //m_ExplosionParticles.transform.position = transform.position;
-            //m_ExplosionParticles.gameObject.SetActive (true);
 
-            // Play the particle system of the tank exploding
-            //m_ExplosionParticles.Play ();
-
-            // Play the tank explosion sound effect
-            //m_ExplosionAudio.Play();
-
+            CmdTankExplosion();
 
             // Turn the tank off
             gameObject.SetActive(false);
+        }
+
+        [Command]
+        public void CmdTankExplosion()
+        {
+            RpcParticlesExplosion();
+            NetworkServer.Spawn(m_ExplosionParticles.gameObject);
+        }
+
+        [ClientRpc]
+        private void RpcParticlesExplosion()
+        {
+            // Instantiate the explosion prefab and get a reference to the particle system on it
+            m_ExplosionParticles = Instantiate(m_ExplosionPrefab).GetComponent<ParticleSystem>();
+
+            // Get a reference to the audio source on the instantiated prefab
+            m_ExplosionAudio = m_ExplosionParticles.GetComponent<AudioSource>();
+
+            // Disable the prefab so it can be activated when it's required
+            m_ExplosionParticles.gameObject.SetActive(false);
+
+            // Move the instantiated explosion prefab to the tank's position and turn it on
+            m_ExplosionParticles.transform.position = transform.position;
+            m_ExplosionParticles.gameObject.SetActive(true);
+
+            // Play the particle system of the tank exploding
+            m_ExplosionParticles.Play();
+
+            // Play the tank explosion sound effect
+            m_ExplosionAudio.Play();
+
+            Destroy(m_ExplosionParticles.gameObject, m_ExplosionParticles.main.duration);
         }
     }
 }

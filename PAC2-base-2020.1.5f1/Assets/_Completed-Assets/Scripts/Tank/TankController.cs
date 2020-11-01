@@ -21,7 +21,7 @@ namespace Complete
         private InputAction m_MoveAction;
         private InputAction m_TurnAction;
         [SyncVar(hook = "SetTextName")]
-        public string m_PlayerName;
+        public string m_PlayerName = "Player";
 
         void Awake()
         {
@@ -41,7 +41,7 @@ namespace Complete
             AddToTankList();
             if (isLocalPlayer)
             {
-                m_PlayerName = PlayerPrefs.GetString("PlayerName");
+                m_PlayerName = PlayerPrefs.GetString("PlayerName", "Player");
                 SetTextName("", "");
 
                 // Unity 2020 New Input System
