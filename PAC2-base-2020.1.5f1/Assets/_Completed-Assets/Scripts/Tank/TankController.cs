@@ -22,12 +22,15 @@ namespace Complete
         private InputAction m_TurnAction;
         [SyncVar(hook = "SetTextName")]
         public string m_PlayerName = "Player";
+        public Button m_disconnectBtn;
 
         private TankManager m_tank;
+
 
         void Awake()
         {
             gameManager = FindObjectOfType<GameManager>().GetComponent<GameManager>();
+            m_disconnectBtn = FindObjectOfType<Button>().GetComponent<Button>();
             m_tankShooting = FindObjectOfType<TankShooting>().GetComponent<TankShooting>();
             m_tankMovement = FindObjectOfType<TankMovement>().GetComponent<TankMovement>();
         }
@@ -107,6 +110,7 @@ namespace Complete
             tank.Setup();
 
             m_tank = tank;
+            if (isLocalPlayer) gameManager.m_myTank = m_tank;
 
             // Añadimos el tanque completamente configurado a la lista del GameManager
             List<TankManager> tempTanks = gameManager.m_Tanks.ToList();
@@ -124,11 +128,23 @@ namespace Complete
         {
             // Eliminamos el tanque completamente configurado a la lista del GameManager
             List<TankManager> tempTanks = gameManager.m_Tanks.ToList();
-            tempTanks.Remove(m_tank);
+            tempTanks.Remove(gameManager.m_myTank);
             gameManager.m_Tanks = tempTanks.ToArray();
 
             // Reconfiguramos la lista de objetivos de la cámara
             gameManager.SetCameraTargets();
+        }
+
+        public override void OnStartLocalPlayer()
+        {
+            m_PlayerName = PlayerPrefs.GetString("PlayerName", "Player");
+            CmdSetPlayerID(m_PlayerName);
+        }
+
+        [Command]
+        void CmdSetPlayerID(string newID)
+        {
+            m_GUI_PlayerName.text = newID;
         }
 
         public void SetTextName(System.String oldValue, System.String newValue)

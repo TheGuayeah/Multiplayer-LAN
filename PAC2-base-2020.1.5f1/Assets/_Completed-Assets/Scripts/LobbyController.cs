@@ -1,5 +1,6 @@
 ﻿using Complete;
 using Mirror;
+using Mirror.Discovery;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -11,6 +12,8 @@ public class LobbyController : MonoBehaviour
     public TextMeshProUGUI m_connectedPlayers;
     public TMP_InputField m_playerName;
     public Image m_currentColor;
+    public GameObject serverItem;
+    public GameObject serverItemsParent;
 
     private NetworkManager manager;
 
@@ -34,31 +37,6 @@ public class LobbyController : MonoBehaviour
             {
                 PlayerPrefs.SetString("PlayerName", m_playerName.text);
                 manager.StartHost();
-            }
-        }
-    }
-
-    public void JoinGame()
-    {
-        if (!NetworkClient.isConnected && !NetworkServer.active)
-        {
-            if (!NetworkClient.active)
-            {
-                PlayerPrefs.SetString("PlayerName", m_playerName.text);
-                manager.networkAddress = "localhost";
-                manager.StartClient();
-            }
-        }
-    }
-
-    public void StartServer()
-    {
-        if (!NetworkClient.isConnected && !NetworkServer.active)
-        {
-            if (!NetworkClient.active)
-            {
-                PlayerPrefs.SetString("PlayerName", m_playerName.text);
-                manager.StartServer();
             }
         }
     }

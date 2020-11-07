@@ -17,7 +17,7 @@ namespace Complete
         public GameObject m_ExplosionPrefab;                // A prefab that will be instantiated in Awake, then used whenever the tank dies
         
         private AudioSource m_ExplosionAudio;               // The audio source to play when the tank explodes
-        private ParticleSystem m_ExplosionParticles;        // The particle system the will play when the tank is destroyed
+        [HideInInspector] public ParticleSystem m_ExplosionParticles;        // The particle system the will play when the tank is destroyed
         [SyncVar(hook = "SetHealthUI")]
         public float m_CurrentHealth;                      // How much health the tank currently has
         [SyncVar(hook = "OnDeath")]

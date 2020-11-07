@@ -56,28 +56,10 @@ namespace Complete
             Vector3 averagePos = new Vector3();
             int numTargets = 0;
 
-            //List<TankManager> tempTanks = gameManager.m_Tanks.ToList();
-            //for (int n = 0; n < gameManager.m_Tanks.Length; n++)
-            //{
-            //    if (gameManager.m_Tanks[n] == null)
-            //    {
-            //        tempTanks.Remove(gameManager.m_Tanks[n]);
-            //        gameManager.m_Tanks = tempTanks.ToArray();
-            //        gameManager.SetCameraTargets();
-            //    }
-            //}
-
             // Go through all the targets and add their positions together
             for (int i = 0; i < m_Targets.Length; i++)
             {
                 List<TankManager> tempTanks = gameManager.m_Tanks.ToList();
-                //for (int n = 0; n < gameManager.m_Tanks.Length; n++)
-                //{
-                //    if (gameManager.m_Tanks[n] == null)
-                //    {
-                        
-                //    }
-                //}
 
                 // If the target isn't active, go on to the next one
                 if (m_Targets[i] == null)
@@ -87,7 +69,17 @@ namespace Complete
                     m_Targets = new Transform[gameManager.m_Tanks.Length];
                     foreach (var tank in gameManager.m_Tanks)
                     {
-                        m_Targets[i] = tank.m_Instance.transform;
+                        if(tank.m_Instance != null)
+                        {
+                            if (i < m_Targets.Length)
+                            {
+                                m_Targets[i] = tank.m_Instance.transform;
+                            }
+                            else
+                            {
+                                FindAveragePosition();
+                            }
+                        }
                     }
                     if(tempTanks.ToArray().Length > 0) gameManager.SetCameraTargets();
                     return;
@@ -140,14 +132,18 @@ namespace Complete
                     m_Targets = new Transform[gameManager.m_Tanks.Length];
                     foreach (var tank in gameManager.m_Tanks)
                     {
-                        m_Targets[i] = tank.m_Instance.transform;
+                        if (tank.m_Instance != null)
+                        {
+                            m_Targets[i] = tank.m_Instance.transform;
+                        }
                     }
                     if (tempTanks.ToArray().Length > 0) gameManager.SetCameraTargets();
                     FindRequiredSize();
                 }
 
                 // Otherwise, find the position of the target in the camera's local space
-                Vector3 targetLocalPos = transform.InverseTransformPoint (m_Targets[i].position);
+                Vector3 targetLocalPos = Vector3.zero;
+                if (m_Targets[i]) targetLocalPos = transform.InverseTransformPoint (m_Targets[i].position);
 
                 // Find the position of the target from the desired position of the camera's local space
                 Vector3 desiredPosToTarget = targetLocalPos - desiredLocalPos;

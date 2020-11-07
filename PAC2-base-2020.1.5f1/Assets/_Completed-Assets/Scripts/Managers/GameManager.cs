@@ -21,6 +21,7 @@ namespace Complete
         public Color m_EnemyColor;                  // This is the color this tank will be tinted
         public Color m_AiColor;                     // This is the color this tank will be tinted
         public TankManager[] m_Tanks;               // A collection of managers for enabling and disabling different aspects of the tanks
+        [HideInInspector] public TankManager m_myTank;
         
         private int m_RoundNumber;                  // Which round the game is currently on
         private WaitForSeconds m_StartWait;         // Used to have a delay whilst the round starts
@@ -28,14 +29,15 @@ namespace Complete
         private TankManager m_RoundWinner;          // Reference to the winner of the current round.  Used to make an announcement of who won
         private TankManager m_GameWinner;           // Reference to the winner of the game.  Used to make an announcement of who won
         private NetworkManager manager;
-        private GameObject[] allTanks;
+
 
         private void Start()
         {
+            manager = FindObjectOfType<NetworkManager>().GetComponent<NetworkManager>();
+
             // Create the delays so they only have to be made once
             m_StartWait = new WaitForSeconds(m_StartDelay);
             m_EndWait = new WaitForSeconds(m_EndDelay);
-            manager = FindObjectOfType<NetworkManager>().GetComponent<NetworkManager>();
 
             var strColor = PlayerPrefs.GetString("PlayerColor");
             ColorUtility.TryParseHtmlString(strColor, out m_PlayerColor);
@@ -50,14 +52,31 @@ namespace Complete
 
         public void SetCameraTargets()
         {
+            if(m_Tanks.Length == 0)
+            {
+                TankController[] tempPlayers = FindObjectsOfType<TankController>();
+                NPC_AI_Script[] tempNPCs = FindObjectsOfType<NPC_AI_Script>();
+                TankManager[] tempAllTanks = new TankManager[tempPlayers.Length + tempNPCs.Length];
+
+                foreach (var item in tempPlayers)
+                {
+                    tempAllTanks.ToList().Add(item.GetComponent<TankManager>());
+                }
+                foreach (var item in tempNPCs)
+                {
+                    tempAllTanks.ToList().Add(item.GetComponent<TankManager>());
+                }
+                m_Tanks = tempAllTanks;
+            }
+
             // Create a collection of transforms the same size as the number of tanks
             Transform[] targets = new Transform[m_Tanks.Length];
 
             // For each of these transforms...
-            for (int i = 0; i < targets.Length; i++)
+            for (int i = 0; i < m_Tanks.Length; i++)
             {
                 // ... set it to the appropriate tank transform
-                targets[i] = m_Tanks[i].m_Instance.transform;
+                if(m_Tanks[i].m_Instance != null) targets[i] = m_Tanks[i].m_Instance.transform;
             }
 
             // These are the targets the camera should follow
@@ -271,6 +290,15 @@ namespace Complete
 
         public void Disonnect()
         {
+            m_myTank.m_Instance.GetComponent<TankHealth>().m_Dead = true;
+
+            StartCoroutine(DisconnectNetwork(m_myTank.m_Instance.GetComponent<TankHealth>().m_ExplosionParticles.main.duration));
+        }
+
+        private IEnumerator DisconnectNetwork(float time)
+        {
+            yield return new WaitForSeconds(time);
+
             // stop host if host mode
             if (NetworkServer.active && NetworkClient.isConnected)
             {
