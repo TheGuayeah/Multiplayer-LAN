@@ -23,6 +23,8 @@ namespace Complete
         [SyncVar(hook = "SetTextName")]
         public string m_PlayerName = "Player";
 
+        private TankManager m_tank;
+
         void Awake()
         {
             gameManager = FindObjectOfType<GameManager>().GetComponent<GameManager>();
@@ -104,6 +106,8 @@ namespace Complete
             // Configuramos los componentes del tanque
             tank.Setup();
 
+            m_tank = tank;
+
             // Añadimos el tanque completamente configurado a la lista del GameManager
             List<TankManager> tempTanks = gameManager.m_Tanks.ToList();
             tempTanks.Add(tank);
@@ -118,16 +122,9 @@ namespace Complete
         /// </summary>
         public void RemoveFromTankList()
         {
-            TankManager tank = new TankManager();
-            // Hacemos referencia al objeto del tanque
-            tank.m_Instance = gameObject;
-
-            // Configuramos los componentes del tanque
-            tank.Setup();
-
             // Eliminamos el tanque completamente configurado a la lista del GameManager
             List<TankManager> tempTanks = gameManager.m_Tanks.ToList();
-            tempTanks.Remove(tank);
+            tempTanks.Remove(m_tank);
             gameManager.m_Tanks = tempTanks.ToArray();
 
             // Reconfiguramos la lista de objetivos de la cámara

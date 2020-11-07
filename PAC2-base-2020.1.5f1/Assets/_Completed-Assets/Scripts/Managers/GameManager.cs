@@ -9,7 +9,7 @@ using UnityEngine.UI;
 
 namespace Complete
 {
-    public class GameManager : MonoBehaviour
+    public class GameManager : NetworkBehaviour
     {
         public int m_NumRoundsToWin = 5;            // The number of rounds a single player has to win to win the game
         public float m_StartDelay = 3f;             // The delay between the start of RoundStarting and RoundPlaying phases
@@ -28,6 +28,7 @@ namespace Complete
         private TankManager m_RoundWinner;          // Reference to the winner of the current round.  Used to make an announcement of who won
         private TankManager m_GameWinner;           // Reference to the winner of the game.  Used to make an announcement of who won
         private NetworkManager manager;
+        private GameObject[] allTanks;
 
         private void Start()
         {
@@ -39,7 +40,6 @@ namespace Complete
             var strColor = PlayerPrefs.GetString("PlayerColor");
             ColorUtility.TryParseHtmlString(strColor, out m_PlayerColor);
 
-            //SpawnNPCTanks();
             SetCameraTargets();
 
             // Once the tanks have been created and the camera is using them as targets, start the game
@@ -47,23 +47,9 @@ namespace Complete
             
         }
 
-        private void SpawnNPCTanks()
-        {
-            // For all the tanks...
-            for (int i = 0; i < m_Tanks.Length; i++)
-            {
-                // ... create them, set their player number and references needed for control
-                // m_Tanks[i].m_Instance = Instantiate(m_TankPrefab, m_Tanks[i].m_SpawnPoint.position, m_Tanks[i].m_SpawnPoint.rotation) as GameObject;
-                m_Tanks[i].m_PlayerNumber = i + 5;
-                m_Tanks[i].m_PlayerColor = m_AiColor;
-                m_Tanks[i].Setup();
-            }
-        }
-
 
         public void SetCameraTargets()
         {
-            Debug.Log("HI");
             // Create a collection of transforms the same size as the number of tanks
             Transform[] targets = new Transform[m_Tanks.Length];
 

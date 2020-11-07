@@ -80,7 +80,14 @@ namespace Complete
 
         private void OnDeath (System.Boolean oldValue, System.Boolean newValue)
         {
-            GetComponent<TankController>().RemoveFromTankList();
+            if(GetComponent<NPC_AI_Script>())
+            {
+                GetComponent<NPC_AI_Script>().RemoveFromTankList();
+            }
+            else
+            {
+                GetComponent<TankController>().RemoveFromTankList();
+            }
 
             Explosion();
             CmdTankExplosion();
