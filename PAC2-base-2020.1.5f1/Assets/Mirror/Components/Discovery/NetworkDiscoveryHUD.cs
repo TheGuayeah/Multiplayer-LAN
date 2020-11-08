@@ -7,13 +7,14 @@ namespace Mirror.Discovery
     [DisallowMultipleComponent]
     [AddComponentMenu("Network/NetworkDiscoveryHUD")]
     [HelpURL("https://mirror-networking.com/docs/Components/NetworkDiscovery.html")]
-    [RequireComponent(typeof(NetworkDiscovery))]
+    //[RequireComponent(typeof(NetworkDiscovery))]
     public class NetworkDiscoveryHUD : MonoBehaviour
     {
-        readonly Dictionary<long, ServerResponse> discoveredServers = new Dictionary<long, ServerResponse>();
+        public readonly Dictionary<long, ServerResponse> discoveredServers = new Dictionary<long, ServerResponse>();
         Vector2 scrollViewPos = Vector2.zero;
 
         public NetworkDiscovery networkDiscovery;
+        public InputField m_playerName;
         public GameObject serverItem;
         public GameObject serverItemsParent;
 
@@ -22,7 +23,7 @@ namespace Mirror.Discovery
         {
             if (networkDiscovery == null)
             {
-                networkDiscovery = GetComponent<NetworkDiscovery>();
+                networkDiscovery = GameObject.FindObjectOfType<NetworkDiscovery>().GetComponent<NetworkDiscovery>();
                 UnityEditor.Events.UnityEventTools.AddPersistentListener(networkDiscovery.OnServerFound, OnDiscoveredServer);
                 UnityEditor.Undo.RecordObjects(new Object[] { this, networkDiscovery }, "Set NetworkDiscovery");
             }
@@ -77,8 +78,9 @@ namespace Mirror.Discovery
             networkDiscovery.AdvertiseServer();
         }
 
-        void Connect(ServerResponse info)
+        public void Connect(ServerResponse info)
         {
+            PlayerPrefs.SetString("PlayerName", m_playerName.text);
             NetworkManager.singleton.StartClient(info.uri);
         }
 
@@ -86,14 +88,20 @@ namespace Mirror.Discovery
         {
             // Note that you can check the versioning to decide if you can connect to the server or not using this method
             discoveredServers[info.serverId] = info;
-            Debug.Log("info");
-            foreach (var server in discoveredServers.Values)
-            {
-                Debug.Log(server.EndPoint.Address.ToString());
 
-                var item = Instantiate(serverItem, serverItemsParent.transform);
-                item.transform.GetChild(2).gameObject.GetComponent<Text>().text = server.EndPoint.Address.ToString();
-                item.transform.GetChild(3).gameObject.GetComponent<Button>().onClick.AddListener(() => Connect(server));
+            if(serverItemsParent != null)
+            {
+                for (int i = 0; i < serverItemsParent.transform.childCount; i++)
+                {
+                    Destroy(serverItemsParent.transform.GetChild(i).gameObject);
+                }
+
+                foreach (ServerResponse server in discoveredServers.Values)
+                {
+                    GameObject item = Instantiate(serverItem, serverItemsParent.transform);
+                    item.transform.GetChild(2).gameObject.GetComponent<Text>().text = server.EndPoint.Address.ToString();
+                    item.transform.GetChild(3).gameObject.GetComponent<Button>().onClick.AddListener(() => Connect(server));
+                }
             }
         }
     }

@@ -7,13 +7,10 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class LobbyController : MonoBehaviour
+public class LobbyController : NetworkDiscoveryHUD
 {
     public TextMeshProUGUI m_connectedPlayers;
-    public TMP_InputField m_playerName;
     public Image m_currentColor;
-    public GameObject serverItem;
-    public GameObject serverItemsParent;
 
     private NetworkManager manager;
 
@@ -22,6 +19,7 @@ public class LobbyController : MonoBehaviour
         manager = FindObjectOfType<NetworkManager>().GetComponent<NetworkManager>();
         var hexColor = "#" + ColorUtility.ToHtmlStringRGBA(m_currentColor.color);
         PlayerPrefs.SetString("PlayerColor", hexColor);
+        InvokeRepeating("SetServerList", 1f, 5f);
     }
 
     void Update()
@@ -46,5 +44,10 @@ public class LobbyController : MonoBehaviour
         m_currentColor.color = colorImage.color;
         var hexColor = "#" + ColorUtility.ToHtmlStringRGBA(colorImage.color);
         PlayerPrefs.SetString("PlayerColor", hexColor);
+    }
+
+    public void SetServerList()
+    {
+        FindServer();
     }
 }
