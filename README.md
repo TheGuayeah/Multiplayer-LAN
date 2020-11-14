@@ -34,6 +34,7 @@
 - El jugador aparece de color azul por defecto o del colo escogido en la lobby
 - El jugador enemigo aparece siempre de color rojo
 - Todos los jugadores no NPCs tienen el nombre encima del tanque
+- Si los NPCs tienen más cerca a otro NPC que a un jugador, también se atacan entre ellos para que parezca más realista
 - Todos los objetos que se instancian a través del servidor (misiles, tanques y partículas) lo hacen correctamente
 - La cámara muestra siempre todos los jugadores y NPCs que continuan con vida
 - El círculo de salud de todos los tanques se actualiza a través del servidor para que todos los jugadores puedan verlo
