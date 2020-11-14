@@ -67,6 +67,7 @@ namespace Mirror.Discovery
         public void StartHost()
         {
             discoveredServers.Clear();
+            PlayerPrefs.SetString("PlayerName", m_playerName.text);
             NetworkManager.singleton.StartHost();
             networkDiscovery.AdvertiseServer();
         }
