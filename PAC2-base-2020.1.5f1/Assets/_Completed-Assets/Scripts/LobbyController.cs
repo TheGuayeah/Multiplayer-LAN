@@ -9,7 +9,6 @@ using UnityEngine.UI;
 
 public class LobbyController : NetworkDiscoveryHUD
 {
-    public TextMeshProUGUI m_connectedPlayers;
     public Image m_currentColor;
 
     private NetworkManager manager;
@@ -24,7 +23,7 @@ public class LobbyController : NetworkDiscoveryHUD
 
     void Update()
     {
-        m_connectedPlayers.text = "Localhost players: " + manager.numPlayers+" / "+manager.maxConnections;
+
     }
 
     public void CreateGame()
